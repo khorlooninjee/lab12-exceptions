@@ -1,25 +1,37 @@
 public class Shop {
 
-    // ─────── 🟡 Stretch: finally block counter ───────
     public static int autoSaveCount = 0;
 
-    // TODO: buy(Character buyer, Item item) → void
-    // - throws InsufficientGoldException (заавал method signature-д бичнэ)
-    // - buyer.getGold() < item.getPrice() бол InsufficientGoldException шид
-    // - эс бөгөөс buyer.setGold(buyer.getGold() - item.getPrice())
+    public void buy(Character buyer, Item item) throws InsufficientGoldException {
 
-    // ─────── 🟡 Stretch (30 оноо) ───────
+        if (buyer.getGold() < item.getPrice()) {
+            throw new InsufficientGoldException(
+                    buyer.getName() + "-ийн алт хүрэлцэхгүй байна"
+            );
+        }
 
-    // TODO: autoSave(boolean shouldFail) → void
-    // - try блок дотор: хэрэв shouldFail бол throw new RuntimeException("Save failed")
-    // - finally блок дотор: autoSaveCount++
-    // - Exception шидэгдсэн ч, үгүй ч counter заавал нэмэгдэнэ
+        buyer.setGold(
+                buyer.getGold() - item.getPrice()
+        );
+    }
 
-    // ─────── 🔴 Bonus (10 оноо) ───────
+    public void autoSave(boolean shouldFail) {
 
-    // TODO: buyWithChain(Character buyer, Item item) → void
-    // - throws Exception
-    // - try блокоос buy(buyer, item) дуудна
-    // - catch (InsufficientGoldException cause) бол:
-    //   throw new Exception("Transaction failed", cause) — cause дамжуулсан шинэ exception
+        try {
+            if (shouldFail) {
+                throw new RuntimeException("Save failed");
+            }
+        } finally {
+            autoSaveCount++;
+        }
+    }
+
+    public void buyWithChain(Character buyer, Item item) throws Exception {
+
+        try {
+            buy(buyer, item);
+        } catch (InsufficientGoldException cause) {
+            throw new Exception("Transaction failed", cause);
+        }
+    }
 }

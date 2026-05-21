@@ -1,17 +1,18 @@
-// ─────── 🟡 Stretch: try-with-resources ───────
-//
-// TODO: DungeonLog класс бичнэ үү
-// - AutoCloseable interface-г implement хийнэ
-// - private boolean closed = false;
-// - private StringBuilder log = new StringBuilder();
-// - write(String entry) → void: log.append(entry).append("\n")
-// - isClosed() → boolean: closed утгыг буцаана
-// - @Override close() → void: closed = true
-//
-// public class DungeonLog implements AutoCloseable {
-//     ...
-// }
+public class DungeonLog implements AutoCloseable {
 
-public class DungeonLog {
-    // TODO
+    private boolean closed = false;
+    private StringBuilder log = new StringBuilder();
+
+    public void write(String entry) {
+        log.append(entry).append("\n");
+    }
+
+    public boolean isClosed() {
+        return closed;
+    }
+
+    @Override
+    public void close() {
+        closed = true;
+    }
 }
